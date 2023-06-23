@@ -96,15 +96,15 @@ def getNumberOfDaysAndData(curr_type,numberOfDays):
     # make predictions using your existing model loader function
     model_path =None
     if curr_type=="Yen":
-        model_path="./currency_models/yen_prediction.h5"
+        model_path="yen_prediction.h5"
     elif curr_type =="Pound":
-        model_path="./currency_models/pound_prediction.h5"
+        model_path="pound_prediction.h5"
     elif curr_type=="Swiss Franc":
-        model_path="./currency_models/swiss_franc_prediction.h5"
+        model_path="swiss_franc_prediction.h5"
     elif curr_type=="Australian Dollar":
-        model_path="./currency_models/canadian_dollar_prediction.h5"
+        model_path="canadian_dollar_prediction.h5"
     else :
-        model_path="./currency_models/canadian_dollar_prediction.h5"
+        model_path="canadian_dollar_prediction.h5"
     print(model_path)
     predictions = modelLoader(future_data,model_path)
 
