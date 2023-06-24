@@ -1,3 +1,4 @@
+
 from datetime import datetime, timedelta
 import yfinance as yf
 import pandas as pd
@@ -137,7 +138,7 @@ def plotGraph(currVal, daysVal):
         'y': df['Close'],
         'x': df.index,
         'type': 'scatter',
-        'name': 'Share Prices (in USD)',
+        'name': 'Value (in USD)',
         'marker': {'color': 'green'} # set default marker color to green
     }],
     'layout': {
