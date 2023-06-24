@@ -141,7 +141,7 @@ def plotGraph(currVal, daysVal):
         'marker': {'color': 'green'} # set default marker color to green
     }],
     'layout': {
-        'title': 'Apple Share Prices over time (2014)',
+        'title': 'DSI Project level 2.2 ',
         'plot_bgcolor': 'rgb(230, 230, 230)',
         'showlegend': True
     }
