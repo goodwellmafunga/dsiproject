@@ -142,7 +142,7 @@ def plotGraph(currVal, daysVal):
         'marker': {'color': 'green'} # set default marker color to green
     }],
     'layout': {
-        'title': 'DSI Project level 2.2 ',
+        'title': 'Final Year Project HDSI ',
         'plot_bgcolor': 'rgb(230, 230, 230)',
         'showlegend': True
     }
