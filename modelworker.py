@@ -82,7 +82,9 @@ def getNumberOfDaysAndData(curr_type,numberOfDays):
 
     data = getYahooFinance(curr_type)
     # assuming your existing data is in the format of a DataFrame called "data"
-    last_date = data.index[-1] # get the last date in the existing data
+    #last_date = data.index[-1]# get the last date in the existing data
+    last_date = data.index[-1] + timedelta(days=1)  # add a day to the last date
+
         # create a new DataFrame with the last 5 days and future 3 days
     last_five_days = data.tail(numberOfDays)
     print(last_five_days)
@@ -113,6 +115,9 @@ def getNumberOfDaysAndData(curr_type,numberOfDays):
     return data, predictions,future_dates
 
 
+from datetime import datetime, timedelta
+import pytz  # Import pytz module to work with timezones
+
 def plotGraph(currVal, daysVal):
     pred = getNumberOfDaysAndData(currVal, daysVal)
     df = pred[0]
@@ -123,8 +128,6 @@ def plotGraph(currVal, daysVal):
     date_index = pd.DatetimeIndex(timestamp_strings).tz_convert('UTC').floor('D')
     df_pred = pd.DataFrame(prediction_values, index=date_index, columns=['Close.1'])
 
-    print(df_pred)
-    
     # Merge the two dataframes using outer join based on the date index
     df = pd.merge(df, df_pred, how='outer', left_index=True, right_index=True)
 
@@ -133,24 +136,29 @@ def plotGraph(currVal, daysVal):
 
     # Drop Close.1 column
     df.drop(columns=["Close.1"], inplace=True)
+
+    # Define marker colors based on the date compared to the current date
+    marker_color = []
+    current_date = datetime.now(pytz.utc).replace(hour=0, minute=0, second=0, microsecond=0)  # Make current_date timezone-aware
+    for date in df.index:
+        if date > current_date:  # After the current date
+            marker_color.append('red')
+        else:  # On or before the current date
+            marker_color.append('green')
+
     fig_dict = {
-    'data': [{
-        'y': df['Close'],
-        'x': df.index,
-        'type': 'scatter',
-        'name': 'Value (in USD)',
-        'marker': {'color': 'green'} # set default marker color to green
-    }],
-    'layout': {
-        'title': 'Final Year Project HDSI ',
-        'plot_bgcolor': 'rgb(230, 230, 230)',
-        'showlegend': True
+        'data': [{
+            'y': df['Close'],
+            'x': df.index,
+            'type': 'scatter',
+            'name': 'Value (in USD)',
+            'marker': {'color': marker_color}  # set marker color based on date
+        }],
+        'layout': {
+            'title': 'Final Year Project HDSI',
+            'plot_bgcolor': 'rgb(230, 230, 230)',
+            'showlegend': True
+        }
     }
-
-    }   
-    if daysVal <= len(df):
-        marker_color = ['red' if x == daysVal else 'green' for x in range(len(df))]
-        fig_dict['data'][0]['marker']['color'] = marker_color
-
 
     return fig_dict
